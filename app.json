@@ -2,6 +2,7 @@
   "expo": {
     "name": "qBittorrentRemote",
     "slug": "qBittorrentRemote",
+    "owner": "dorin.cretu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

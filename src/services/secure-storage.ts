@@ -34,7 +34,7 @@ export class LocalStorageService {
     }
 
     getJson(storageKey: string) {
-        this.getString(storageKey).then(
+        return this.getString(storageKey).then(
             (result) => result ? JSON.parse(result) : null,
             (error) => console.error(error)
         );

@@ -1,21 +1,15 @@
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList, DrawerScreenProps } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import React from 'react';
+import ErrorScreen from './src/screens/ErrorScreen';
+import { HomeScreen } from './src/screens/HomeScreen';
+import NetworksListScreen from './src/screens/NetworksList';
 import SettingsScreen from './src/screens/SettingsScreen';
-import Constants from 'expo-constants';
+import { SplashScreen } from './src/screens/SplashScreen';
 import { LocalStorageService } from './src/services/secure-storage';
 
 const localStorage = LocalStorageService.getInstance();
-
-function HomeScreen({ navigation }: DrawerScreenProps<{}>) {
-    return (
-        <View style={{ paddingTop: Constants.statusBarHeight, flex: 1, alignItems: "flex-start", justifyContent: "flex-start" }}>
-            <Button onPress={() => console.log(1)} title="1" />
-            <Button onPress={() => console.log(2)} title="2" />
-        </View>
-    );
-}
+const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props: any) {
     const servers = [
@@ -32,15 +26,34 @@ function CustomDrawerContent(props: any) {
     );
 }
 
-const Drawer = createDrawerNavigator();
-
 export default function App() {
+    debugger
+    localStorage
+        .getJson('API_TOKEN')
+        .then(
+            (apiToken) => {
+                debugger
+                // navigation.navigate('NetworksList')
+            },
+            (error) => {
+                debugger
+                // navigation.navigate('Error')
+            }
+        )
+
     return (
         <NavigationContainer>
-            <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />} initialRouteName="Home">
+            <Drawer.Navigator
+                drawerContent={(props) => <CustomDrawerContent {...props} />}
+                initialRouteName="Splash"
+            >
                 <Drawer.Screen name="Home" component={HomeScreen} />
-                {/* <Drawer.Screen name="Settings" component={SettingsScreen} /> */}
+                <Drawer.Screen name="Settings" component={SettingsScreen} />
+                <Drawer.Screen name="NetworksList" component={NetworksListScreen} />
+                <Drawer.Screen name="Splash" component={SplashScreen}></Drawer.Screen>
+                <Drawer.Screen name="Error" component={ErrorScreen}></Drawer.Screen>
             </Drawer.Navigator>
         </NavigationContainer>
-    );
+    )
 }
+

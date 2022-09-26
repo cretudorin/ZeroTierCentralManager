@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { Network } from '../entities/network';
 import { NetworkMember } from '../entities/network-member';
 import { CONTROLLER, TOKEN } from '../secrets';
 

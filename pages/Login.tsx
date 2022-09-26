@@ -1,7 +1,7 @@
+import * as SecureStore from 'expo-secure-store';
 import React, { useState } from 'react';
 import { Alert, Button, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { CONTROLLER, TOKEN } from '../secrets';
 
 const Separator = () => (
   <View
@@ -12,9 +12,9 @@ const Separator = () => (
     }}
   />
 );
-export function Controller({ navigation }: any) {
-  const [controller, setController] = useState<string>(CONTROLLER);
-  const [token, setToken] = useState<string>(TOKEN);
+export function Login({ navigation }: any) {
+  const [controller, setController] = useState<string>();
+  const [token, setToken] = useState<string>();
 
   const checkCredentials = async () => {
     return await fetch(`${controller}/api/v1/network`, {
@@ -35,8 +35,9 @@ export function Controller({ navigation }: any) {
   const handleSubmit = () => {
     checkCredentials().then((value) => {
       if (value) {
-        debugger;
-        navigation.navigate('Networks');
+        SecureStore.setItemAsync('session', JSON.stringify({ controller, token })).then(() => {
+          navigation.navigate('Root');
+        });
       }
     });
   };
